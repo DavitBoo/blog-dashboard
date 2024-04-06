@@ -1,3 +1,4 @@
+import GetPosts from "./Components/GetPosts";
 import NewPost from "./Components/NewPost";
 import Register from "./Components/Register";
 import GlobalStyle from "./globalStyles";
@@ -13,6 +14,8 @@ function App() {
             <ul>
               <li>
                 <Link to={`register`}>Register</Link>
+                <Link to={`posts`}>Posts</Link>
+
               </li>
       
             </ul>
@@ -20,6 +23,7 @@ function App() {
           <GlobalStyle />
           <Routes>
             <Route path="/register" element={<Register />} />
+            <Route path="/posts" element={<GetPosts />} />
             <Route path="/" element={<NewPost />} />
           </Routes>
       
