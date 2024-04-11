@@ -1,9 +1,9 @@
 import GetPosts from "./Components/GetPosts";
 import NewPost from "./Components/NewPost";
 import Register from "./Components/Register";
+import SinglePost from "./Components/SinglePost";
 import GlobalStyle from "./globalStyles";
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 
 function App() {
@@ -11,22 +11,25 @@ function App() {
     <Router>
       <div className="App">
         <nav>
-            <ul>
-              <li>
-                <Link to={`register`}>Register</Link>
-                <Link to={`posts`}>Posts</Link>
-
-              </li>
-      
-            </ul>
-          </nav>
-          <GlobalStyle />
-          <Routes>
-            <Route path="/register" element={<Register />} />
-            <Route path="/posts" element={<GetPosts />} />
-            <Route path="/" element={<NewPost />} />
-          </Routes>
-      
+          <ul>
+          <li>
+              <Link to="/">Inicio</Link>
+            </li>
+            <li>
+              <Link to={`register`}>Register</Link>
+            </li>
+            <li>
+              <Link to={`posts`}>Posts</Link>
+            </li>
+          </ul>
+        </nav>
+        <GlobalStyle />
+        <Routes>
+          <Route path="/register" element={<Register />} />
+          <Route path="/posts" element={<GetPosts />} />
+          <Route path="/" element={<NewPost />} />
+          <Route path="/posts/:id" element={<SinglePost />} />
+        </Routes>
       </div>
     </Router>
   );

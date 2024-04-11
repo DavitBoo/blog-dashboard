@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom"; 
+
 
 export default function GetPosts() {
   const [posts, setPosts] = useState([]);
@@ -8,7 +10,7 @@ export default function GetPosts() {
     const fetchPosts = async () => {
       try {
         const response = await fetch("https://my-blog-api-14aq.onrender.com/api/posts");
-        console.log(response);
+        
         const data = await response.json();
         setPosts(data);
       } catch (error) {
@@ -29,7 +31,9 @@ export default function GetPosts() {
         <ul>
           {posts.map((post) => (
             <li key={post._id}>
-              <h2>{post.title}</h2>
+              <h2>
+                <Link to={`/posts/${post._id}`}>{post.title}</Link>
+              </h2>
               <p>{post.body}</p>
             </li>
           ))}
