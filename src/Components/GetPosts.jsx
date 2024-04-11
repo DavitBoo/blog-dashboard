@@ -32,7 +32,7 @@ export default function GetPosts() {
           {posts.map((post) => (
             <li key={post._id}>
               <h2>
-                <Link to={`/posts/${post._id}`}>{post.title}</Link>
+                <Link to={`/posts/${post._id}`} test="hey">{post.title}</Link>
               </h2>
               <p>{post.body}</p>
             </li>
