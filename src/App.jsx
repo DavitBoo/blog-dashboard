@@ -1,10 +1,14 @@
 import CreateLabels from "./Components/CreateLabels";
+import Footer from "./Components/Footer";
 import GetPosts from "./Components/GetPosts";
+import Login from "./Components/Login";
+import Navbar from "./Components/Navbar";
 import NewPost from "./Components/NewPost";
 import Register from "./Components/Register";
 import SinglePost from "./Components/SinglePost";
 import GlobalStyle from "./globalStyles";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+
 
 
 function App() {
