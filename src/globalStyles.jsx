@@ -1,6 +1,27 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
+
+.source-serif-4 {
+  font-family: "Source Serif 4", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.source-serif-4-bolg {
+  font-family: "Source Serif 4", serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+
+:root{
+  --purple: #b78dfc;
+  --dark-grey: #4d5252;
+}
+
   /*
   1. Use a more-intuitive box-sizing model.
 */
@@ -22,6 +43,9 @@ const GlobalStyle = createGlobalStyle`
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  font-family: "Source Serif 4", serif;  
+
+  background-color: var(--purple);
 }
 /*
   5. Improve media defaults
@@ -34,7 +58,6 @@ img, picture, video, canvas, svg {
   6. Remove built-in form typography styles
 */
 input, button, textarea, select {
-  font: inherit;
 }
 /*
   7. Avoid text overflows

@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import CreateLabels from "./Components/CreateLabels";
 import Footer from "./Components/Footer";
 import GetPosts from "./Components/GetPosts";
@@ -9,6 +10,7 @@ import Register from "./Components/Register";
 import SinglePost from "./Components/SinglePost";
 import GlobalStyle from "./globalStyles";
 import { BrowserRouter as Router, Routes, Route, Link, createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+
 
 const Layout = () => {
   return (
@@ -62,6 +64,7 @@ const router = createBrowserRouter([
 function App() {
   return (
       <div className="App">
+        <GlobalStyle />
         <RouterProvider router={router} />
       </div>
   );
