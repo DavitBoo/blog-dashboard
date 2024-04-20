@@ -16,10 +16,9 @@ const GlobalStyle = createGlobalStyle`
   font-style: normal;
 }
 
-
-:root{
-  --purple: #b78dfc;
-  --dark-grey: #4d5252;
+:root {
+  --purple: #B78DFC;
+  --dark-grey: #333;
 }
 
   /*
@@ -45,7 +44,6 @@ body {
   -webkit-font-smoothing: antialiased;
   font-family: "Source Serif 4", serif;  
 
-  background-color: var(--purple);
 }
 /*
   5. Improve media defaults
@@ -72,6 +70,29 @@ p, h1, h2, h3, h4, h5, h6 {
   isolation: isolate;
 }
 
+
+/* ---- estilos ---- */
+body{
+  background-color: var(--purple);
+  color: var(--dark-grey);
+}
+
+.btn {
+  background-color: var(--purple);
+  color: #fff;
+  border: 0;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+.d-flex{
+  display: flex;
+}
+
+.d-flex-col{
+  display: flex;
+  flex-direction: column;
+}
 
 `;
 

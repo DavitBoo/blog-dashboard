@@ -1,4 +1,18 @@
 import React, { useState } from "react";
+import styled from "styled-components";
+
+const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  align-items: center;
+
+  form {
+    max-width: 350px;
+  }
+`;
 
 export default function Register() {
   const [user, setUser] = useState("");
@@ -37,13 +51,13 @@ export default function Register() {
   };
 
   return (
-    <div>
-      <h1>prueba</h1>
-      <form onSubmit={handleSubmit}>
+    <FormContainer>
+      <h1>Register</h1>
+      <form className="d-flex-col" onSubmit={handleSubmit}>
         <input type="text" placeholder="Usuario" value={user} onChange={handleUserChange} />
         <input type="password" placeholder="password" value={password} onChange={handlePasswordChange} />
         <input type="submit" value="Guardar usuario" />
       </form>
-    </div>
+    </FormContainer>
   );
 }
