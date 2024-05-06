@@ -19,6 +19,7 @@ const GlobalStyle = createGlobalStyle`
 :root {
   --purple: #B78DFC;
   --dark-grey: #333;
+  --error-red: #CA2F28;
 }
 
   /*
@@ -83,6 +84,15 @@ body{
   border: 0;
   padding-top: .5rem;
   padding-bottom: .5rem;
+}
+
+.error-msg{
+  text-align: center;
+  color: var(--error-red);
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+  font-size: .8rem;
+
 }
 
 .d-flex{

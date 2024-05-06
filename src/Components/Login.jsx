@@ -29,6 +29,8 @@ const FormContainer = styled.div`
     border-bottom: 1px solid var(--dark-grey);
     padding: .5rem;
   }
+
+
 `;
 
 
@@ -43,6 +45,7 @@ export default function Login() {
             <input placeholder='password' type="password" name="" id="" />
             <input className='btn' type="submit" value="Login" />
           </form>
+          <p className="error-msg">This is an error</p>
 </div>
 
     </FormContainer>
