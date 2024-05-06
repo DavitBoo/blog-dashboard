@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 
 const FormContainer = styled.div`
   display: flex;
@@ -12,42 +12,83 @@ const FormContainer = styled.div`
   > div {
     background-color: #fff;
     padding: 2rem;
-    border-radius: .2rem;
+    border-radius: 0.2rem;
   }
 
-  h1{
+  h1 {
     margin: 1rem;
   }
-  
+
   form {
     max-width: 350px;
   }
 
-  input:not([type='submit']){
+  input:not([type="submit"]) {
     margin-bottom: 2rem;
     border: 0;
     border-bottom: 1px solid var(--dark-grey);
-    padding: .5rem;
+    padding: 0.5rem;
   }
-
-
 `;
 
-
 export default function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [token, setToken] = useState("");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("https://my-blog-api-14aq.onrender.com/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setToken(data.token);
+
+      } else {
+        console.error("Failed to log in");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      setError("Error logging in");
+    }
+  };
+
+
   return (
     <FormContainer>
       <h1>Login</h1>
-<div>
-  
-          <form className='d-flex-col' action="">
-            <input placeholder='username' type="text" name="username" id="" />
-            <input placeholder='password' type="password" name="" id="" />
-            <input className='btn' type="submit" value="Login" />
-          </form>
-          <p className="error-msg">This is an error</p>
-</div>
-
+      <div>
+      <form className="d-flex-col" action="" onSubmit={handleLogin}>
+          <input
+            placeholder="username"
+            type="text"
+            name="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            placeholder="password"
+            type="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <input className="btn" type="submit" value="Login" />
+        </form>
+        {error && <p className="error-msg">{error}</p>}
+      </div>
     </FormContainer>
-  )
+  );
 }
