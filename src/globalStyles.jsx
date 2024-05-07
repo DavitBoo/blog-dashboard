@@ -95,6 +95,14 @@ body{
 
 }
 
+.links{
+  gap: 2rem;
+}
+
+.links a{
+  font-size: 2rem;
+}
+
 .d-flex{
   display: flex;
 }

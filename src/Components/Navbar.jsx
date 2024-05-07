@@ -15,6 +15,9 @@ export default function Navbar() {
           <Link className="link" to="/new-post">
             <h6>New Post</h6>
           </Link>
+          <Link className="link" to="/login">
+            <h6>Login</h6>
+          </Link>
          
         </div>
       </div>

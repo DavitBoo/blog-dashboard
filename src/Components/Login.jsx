@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const FormContainer = styled.div`
   display: flex;
@@ -37,6 +38,10 @@ export default function Login() {
   const [error, setError] = useState("");
   const [token, setToken] = useState("");
 
+
+  // I use navigate since it is a redirection not a Link 
+  const navigate = useNavigate();
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -55,6 +60,7 @@ export default function Login() {
       if (response.ok) {
         const data = await response.json();
         setToken(data.token);
+        navigate("/");
 
       } else {
         console.error("Failed to log in");
