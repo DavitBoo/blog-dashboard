@@ -36,7 +36,7 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [token, setToken] = useState("");
+  //const [token, setToken] = useState("");
 
 
   // I use navigate since it is a redirection not a Link 
@@ -59,7 +59,8 @@ export default function Login() {
 
       if (response.ok) {
         const data = await response.json();
-        setToken(data.token);
+        //setToken(data.token);
+        document.cookie = `token=${data.token}; path=/; max-age=${60 * 60 * 24 * 7}`; // Expires in 7 days
         navigate("/");
 
       } else {
