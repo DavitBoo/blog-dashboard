@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/authContext";
 
 const FormContainer = styled.div`
   display: flex;
@@ -36,36 +37,22 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  //const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
 
 
   // I use navigate since it is a redirection not a Link 
   const navigate = useNavigate();
 
+  const authContext = useContext(AuthContext);
+  const {login} = useContext(AuthContext);
+
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await fetch("https://my-blog-api-14aq.onrender.com/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
-      });
 
-      if (response.ok) {
-        const data = await response.json();
-        //setToken(data.token);
-        document.cookie = `token=${data.token}; path=/; max-age=${60 * 60 * 24 * 7}`; // Expires in 7 days
-        navigate("/");
-
-      } else {
-        console.error("Failed to log in");
-      }
+      await login(username, password);
+      navigate("/");
+      
     } catch (error) {
       console.error("Error logging in:", error);
       setError("Error logging in");
