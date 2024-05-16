@@ -23,9 +23,18 @@ export const AuthContextProvider = ({ children }) => {
       document.cookie = `authToken=${data.token}; path=/; max-age=${60 * 60 * 24}`; // Expires in 1 day
       document.cookie = `logedUser=${username}; path=/; max-age=${60 * 60 * 24}`;
       console.log(document.cookie);
+      navigate("/");
     } else {
-      console.error("Failed to log in");
+      const errorData = await response.json();
+      console.log(errorData.error);
+      throw new Error(errorData.error);
     }
+  };
+
+  const logout = () => {
+    // ! =>>>
+    document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; // ! problemas al borrar las cookies desde React, usaré el servidor mejor
+    setUser(null);
   };
 
   useEffect(() => {
@@ -47,7 +56,7 @@ export const AuthContextProvider = ({ children }) => {
 
     const getUserFromCookie = () => {
       const cookieValue = document.cookie.split(";").find((row) => row.startsWith("logedUser"));
-      
+
       if (cookieValue) {
         const user = cookieValue.split("=")[1];
         console.log(user);
@@ -74,5 +83,5 @@ export const AuthContextProvider = ({ children }) => {
     };
   }, [token]);
 
-  return <AuthContext.Provider value={{ token, login, user, setUser }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ token, login, user, logout }}>{children}</AuthContext.Provider>;
 };

@@ -3,13 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 
 export default function Navbar() {
-  const { user, setUser } = useContext(AuthContext);
-
-  const handleLogout = () => {
-    document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-    setUser(null);
-  };
+  const { user, logout } = useContext(AuthContext); 
 
   return (
     <nav>
@@ -31,7 +25,7 @@ export default function Navbar() {
                 <p href="/">
                   Has iniciado sesión como <strong>{user}</strong>
                 </p>
-                <Link className="link" to="/" onClick={handleLogout}>
+                <Link className="link" to="/" onClick={logout}>
                   <h6>Logout</h6>
                 </Link>
               </>

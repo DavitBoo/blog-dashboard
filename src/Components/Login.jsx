@@ -51,11 +51,11 @@ export default function Login() {
     try {
 
       await login(username, password);
-      navigate("/");
+      
       
     } catch (error) {
       console.error("Error logging in:", error);
-      setError("Error logging in");
+      setError(error.message);
     }
   };
 
