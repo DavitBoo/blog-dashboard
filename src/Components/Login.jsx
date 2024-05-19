@@ -50,7 +50,7 @@ export default function Login() {
     e.preventDefault();
     try {
 
-      await login(username, password);
+      await login(username, password, navigate);
       
       
     } catch (error) {

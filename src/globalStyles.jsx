@@ -112,6 +112,20 @@ body{
   flex-direction: column;
 }
 
+
+.published{
+ background-color: #10a324;
+ color: #fff;
+ display: inline-block;
+ padding: .25rem .5rem;
+}
+.unpublished{
+  background-color: #a31010;
+  color: #fff;
+  display: inline-block;
+  padding: .25rem .5rem;
+}
+
 `;
 
 export default GlobalStyle;

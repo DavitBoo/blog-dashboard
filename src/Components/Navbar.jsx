@@ -12,6 +12,10 @@ export default function Navbar() {
           <h1>Davit Boo - blog back end </h1>
         </div>
         <div className="links">
+        <Link className="link" to="/posts">
+            <h6>All Posts</h6>
+          </Link>
+
           <Link className="link" to="/labels">
             <h6>Create labels</h6>
           </Link>

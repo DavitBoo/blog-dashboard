@@ -5,7 +5,7 @@ export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
 
-  const login = async (username, password) => {
+  const login = async (username, password, navigate) => {
     const response = await fetch("https://my-blog-api-14aq.onrender.com/api/login", {
       method: "POST",
       headers: {

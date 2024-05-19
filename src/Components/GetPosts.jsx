@@ -35,6 +35,7 @@ export default function GetPosts() {
                 <Link to={`/posts/${post._id}`} test="hey">{post.title}</Link>
               </h2>
               <p>{post.body}</p>
+              { post.published ? <><p className="published">Publicado</p></> : <p className="unpublished">No publicado</p>}
             </li>
           ))}
         </ul>
