@@ -22,6 +22,10 @@ export default function Navbar() {
           <Link className="link" to="/new-post">
             <h6>New Post</h6>
           </Link>
+          <Link className="link" to="/comments">
+            <h6>Test Comment</h6>
+          </Link>
+          
 
           <>
             {user ? (

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-
+import React, { useContext, useEffect, useState } from "react";
 
 import styled from "styled-components";
+import { AuthContext } from "../context/authContext";
 
 const Container = styled.div`
     text-align: center;
@@ -20,7 +20,10 @@ export default function NewPost() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [file, setFile] = useState("file.png");
+  const [published, setPublished] = useState(false)
   const [token, setToken] = useState(""); // State to store the token
+
+  const {user} = useContext(AuthContext);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -34,30 +37,39 @@ export default function NewPost() {
     setFile(e.target.files[0]);
   };
 
-  const handleLogin = async () => {
-    try {
-      const response = await fetch("https://my-blog-api-14aq.onrender.com/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: "Admin",
-          password: "qwert12345",
-        }),
-      });
+  const handlePublished = (e) => {
+    setPublished(e.target.checked);
+  }
 
-      if (response.ok) {
-        const data = await response.json();
-        setToken(data.token);
-
-      } else {
-        console.error("Failed to log in");
+  useEffect(() => {
+    const handleLogin = async () => {
+      try {
+        const response = await fetch("https://my-blog-api-14aq.onrender.com/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: user,
+            password: "q1w2e3r4t5",
+          }),
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          setToken(data.token);
+  
+        } else {
+          console.error("Failed to log in");
+        }
+      } catch (error) {
+        console.error("Error logging in:", error);
       }
-    } catch (error) {
-      console.error("Error logging in:", error);
-    }
-  };
+    };
+    
+    handleLogin();
+  }, [user])
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,7 +89,8 @@ export default function NewPost() {
         body: JSON.stringify({
           title: title,
           body: body,
-          thumbnail: file
+          thumbnail: file,
+          published: published
         }),
       });
 
@@ -95,12 +108,12 @@ export default function NewPost() {
   return (
     <Container>
       <h1>Blog | New Post</h1>
-      <button onClick={handleLogin}>Login</button>
+      {/* <button onClick={handleLogin}>Login</button> */}
       <form onSubmit={handleSubmit}>
         <input type="text" placeholder="Título del post" value={title} onChange={handleTitleChange} />
         <textarea placeholder="Contenido del post" value={body} onChange={handleBodyChange}></textarea>
         {0 && <input type="file" onChange={handleFileChange} />}
-        <p><input type="checkbox" name="published" id="" value={false}/> Publicar</p>
+        <p><input type="checkbox" name="published" id="" value={false} onChange={handlePublished}/> Publicar</p>
         <input type="submit" value="Guardar post" />
       </form>
     </Container>

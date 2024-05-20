@@ -10,6 +10,7 @@ import Register from "./Components/Register";
 import SinglePost from "./Components/SinglePost";
 import GlobalStyle from "./globalStyles";
 import { BrowserRouter as Router, Routes, Route, Link, createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import _Comment from "./Components/_Comment";
 
 
 const Layout = () => {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/posts/:id",
         element: <SinglePost />,
+      },
+      {
+        path: "/comment",
+        element: <_Comment />,
       },
     ],
   },
