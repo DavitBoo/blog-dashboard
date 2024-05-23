@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; 
-
+import { Link } from "react-router-dom";
 
 export default function GetPosts() {
   const [posts, setPosts] = useState([]);
@@ -8,24 +7,24 @@ export default function GetPosts() {
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
-    
+
     const options = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
       hour12: false,
     };
-  
-    return date.toLocaleDateString('es-ES', options).replace(',', ' a las');
+
+    return date.toLocaleDateString("es-ES", options).replace(",", " a las");
   };
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await fetch("https://my-blog-api-14aq.onrender.com/api/posts");
-        
+
         const data = await response.json();
         setPosts(data);
       } catch (error) {
@@ -47,11 +46,22 @@ export default function GetPosts() {
           {posts.map((post) => (
             <li key={post._id}>
               <h2>
-                <Link to={`/posts/${post._id}`} test="hey">{post.title}</Link>
+                <Link to={`/posts/${post._id}`} test="hey">
+                  {post.title}
+                </Link>
               </h2>
               <p>{post.body}</p>
               <p>{formatDate(post.timestamp)}</p>
-              { post.published ? <><p className="published">Publicado</p></> : <p className="unpublished">No publicado</p>}
+              {post.published ? (
+                <>
+                  <p className="published">Publicado</p>
+                </>
+              ) : (
+                <p className="unpublished">No publicado</p>
+              )}
+              <Link className="link" to={`/posts/${post._id}/comment`}>
+                <h6>Add Comment</h6>
+              </Link>
             </li>
           ))}
         </ul>
