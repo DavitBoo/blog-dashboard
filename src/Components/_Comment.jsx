@@ -1,18 +1,48 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
-
-
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const _Comment = () => {
-
   const { id } = useParams();
-  const [post, setPost] = useState({})    
+  const [post, setPost] = useState({});
+  const [comment, setComment] = useState("");
+
+  const handleTextareaChange = (event) => {
+    setComment(event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch(`https://my-blog-api-14aq.onrender.com/api/posts/${post._id}/comments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: "test",
+          email: "test@a.b",
+          commentContent: comment,
+          postId: id,
+        }),
+      });
+
+      if (response.ok) {
+        console.log("Comment created successfully");
+      } else {
+        console.error("Failed to create comment");
+      }
+    } catch (error) {
+      console.error("Error creating comment:", error);
+    }
+
+    setComment("");
+  };
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
         const response = await fetch(`https://my-blog-api-14aq.onrender.com/api/posts/${id}`);
-        
+
         const data = await response.json();
         setPost(data);
       } catch (error) {
@@ -23,16 +53,15 @@ const _Comment = () => {
     fetchPost();
   }, []);
 
-
   return (
     <div>
-          <h1>Comments in post "{post.title}"</h1>
-          <form action="">
-              <textarea name="" id=""></textarea>
-              <input type="submit" value="Enviar" />
-          </form>
+      <h1>Comentarios en la entrada: "{post.title}"</h1>
+      <form action="" onSubmit={handleSubmit}>
+        <textarea value={comment} onChange={handleTextareaChange} placeholder="Escribe tu comentario aquí" />
+        <input type="submit" value="Enviar" />
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default _Comment
+export default _Comment;
