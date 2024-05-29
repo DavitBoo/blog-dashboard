@@ -11,7 +11,7 @@ import SinglePost from "./Components/SinglePost";
 import GlobalStyle from "./globalStyles";
 import { BrowserRouter as Router, Routes, Route, Link, createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import _Comment from "./Components/_Comment";
-
+import _CommentEdit from "./Components/_CommentEdit";
 
 const Layout = () => {
   return (
@@ -53,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: "/posts/:id/comment",
         element: <_Comment />,
+      },
+      {
+        path: "/posts/:id/comment-edit/:commentId",
+        element: <_CommentEdit />,
       },
     ],
   },

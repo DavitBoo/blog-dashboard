@@ -11,16 +11,17 @@ const PostContainer = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
   h1 {
-    font-size: 2em;
+    font-size: 2.5em;
     margin-bottom: 20px;
     color: #333;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
   }
 
   p {
     font-size: 1.2em;
     line-height: 1.6;
     color: #555;
-
   }
 
   .comment {
@@ -44,7 +45,7 @@ const PostContainer = styled.div`
     }
 
     button {
-      padding: 5px 10px;
+      padding: 7px 12px;
       margin-right: 10px;
       font-size: 0.9em;
       color: #fff;
@@ -52,6 +53,7 @@ const PostContainer = styled.div`
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      transition: background-color 0.3s ease;
 
       &:hover {
         background-color: #0056b3;
@@ -104,7 +106,22 @@ export default function SinglePost() {
 
     fetchPost();
     fetchComments();
-  }, [id]);
+  }, [id, comments]);
+
+  const handleDeleteComment = async (commentId) => {
+    console.log(commentId);
+    try {
+      const response = await fetch(`https://my-blog-api-14aq.onrender.com/api/posts/${id}/comments/${commentId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete the comment");
+      }
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  };
 
   if (error) return <div>Error: {error.message}</div>;
 
@@ -119,7 +136,7 @@ export default function SinglePost() {
           </p>
           <p className="comment-content">{comment.commentContent}</p>
           <button>Edit</button>
-          <button>Delete</button>
+          <button onClick={() => handleDeleteComment(comment._id)}>Delete</button>
           <hr />
         </div>
       ))}
