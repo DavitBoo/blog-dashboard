@@ -79,11 +79,15 @@ body{
 }
 
 .btn {
-  background-color: var(--purple);
+  background-color: #4a00c1;
   color: #fff;
   border: 0;
   padding-top: .5rem;
   padding-bottom: .5rem;
+}
+
+.btn:hover{
+  background-color: #320083;
 }
 
 .error-msg{

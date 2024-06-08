@@ -85,6 +85,8 @@ export default function SinglePost() {
   const [post, setPost] = useState({});
   const [comments, setComments] = useState([]);
   const [error, setError] = useState(null);
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editingCommentContent, setEditingCommentContent] = useState("");
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -126,8 +128,50 @@ export default function SinglePost() {
     }
   };
 
-  const handleEdit = () => {
+  // for editing the post
+  const handleEditPost  = () => {
     navigate("/edit-post", { state: { post } }); // Pasar el post en el estado al navegar
+  };
+
+
+  const handleEditComment = (commentId, content) => {
+    setEditingCommentId(commentId);
+    setEditingCommentContent(content);
+  };
+
+  const handleEditChange = (event) => {
+    setEditingCommentContent(event.target.value);
+  };
+
+  const handleEditSubmit = async (event, commentId) => {
+    event.preventDefault();
+    try {
+      const response = await fetch(`https://my-blog-api-14aq.onrender.com/api/posts/${id}/comments/${commentId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          commentContent: editingCommentContent,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update the comment");
+      }
+
+      // Actualizar la lista de comentarios después de editar
+      const updatedComments = comments.map(comment => 
+        comment._id === commentId ? { ...comment, commentContent: editingCommentContent } : comment
+      );
+      setComments(updatedComments);
+
+      // Resetear el estado de edición
+      setEditingCommentId(null);
+      setEditingCommentContent("");
+    } catch (error) {
+      console.error("Error updating comment:", error);
+    }
   };
 
   if (error) return <div>Error: {error.message}</div>;
@@ -141,12 +185,25 @@ export default function SinglePost() {
           <p className="comment-header">
             {comment.username} - {new Date(comment.timestamp).toLocaleString()}
           </p>
-          <p className="comment-content">{comment.commentContent}</p>
-          <button onClick={handleEdit}>Edit</button>
+          {editingCommentId === comment._id ? (
+            <form onSubmit={(event) => handleEditSubmit(event, comment._id)}>
+              <textarea
+                value={editingCommentContent}
+                onChange={handleEditChange}
+              />
+              <button type="submit">Save</button>
+            </form>
+          ) : (
+            <>
+              <p className="comment-content">{comment.commentContent}</p>
+              <button onClick={() => handleEditComment(comment._id, comment.commentContent)}>Edit comment</button>
+            </>
+          )}
           <button onClick={() => handleDeleteComment(comment._id)}>Delete</button>
           <hr />
         </div>
       ))}
+      <button className="btn" onClick={handleEditPost}>Edit post</button>
     </PostContainer>
   );
 }
