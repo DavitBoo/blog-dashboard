@@ -4,16 +4,75 @@ import styled from "styled-components";
 import { AuthContext } from "../context/authContext";
 
 const Container = styled.div`
-    text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
+  h1 {
+    font-size: 2rem;
+    color: #333;
+  }
 
-    form{
-        display: flex;
-        flex-direction: column;
-          padding-left: 5%;
-          padding-right: 5%;
-          gap: 2rem;
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  input[type="text"],
+  textarea,
+  input[type="file"],
+  input[type="submit"] {
+    font-size: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  input[type="text"],
+  textarea {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  textarea {
+    height: 200px;
+    resize: vertical;
+  }
+
+  input[type="file"] {
+    margin-bottom: 1rem;
+  }
+
+  input[type="submit"] {
+    background-color: #4a00c1;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 0.75rem;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #320083;
+
     }
+  }
+
+  p {
+    display: flex;
+    align-items: center;
+  }
+
+  input[type="checkbox"] {
+    margin-right: 0.5rem;
+  }
 `;
 
 export default function NewPost() {
