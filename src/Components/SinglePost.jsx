@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+
 
 const PostContainer = styled.div`
   max-width: 800px;
@@ -44,7 +45,7 @@ const PostContainer = styled.div`
       color: #333;
     }
 
-    button {
+    button, a.link {
       padding: 7px 12px;
       margin-right: 10px;
       font-size: 0.9em;
@@ -54,6 +55,7 @@ const PostContainer = styled.div`
       border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.3s ease;
+      text-decoration: none;
 
       &:hover {
         background-color: #0056b3;
@@ -78,6 +80,7 @@ const PostContainer = styled.div`
 
 export default function SinglePost() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [post, setPost] = useState({});
   const [comments, setComments] = useState([]);
@@ -123,6 +126,10 @@ export default function SinglePost() {
     }
   };
 
+  const handleEdit = () => {
+    navigate("/edit-post", { state: { post } }); // Pasar el post en el estado al navegar
+  };
+
   if (error) return <div>Error: {error.message}</div>;
 
   return (
@@ -135,7 +142,7 @@ export default function SinglePost() {
             {comment.username} - {new Date(comment.timestamp).toLocaleString()}
           </p>
           <p className="comment-content">{comment.commentContent}</p>
-          <button>Edit</button>
+          <button onClick={handleEdit}>Edit</button>
           <button onClick={() => handleDeleteComment(comment._id)}>Delete</button>
           <hr />
         </div>

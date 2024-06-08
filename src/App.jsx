@@ -6,6 +6,7 @@ import Home from "./Components/Home";
 import Login from "./Components/Login";
 import Navbar from "./Components/Navbar";
 import NewPost from "./Components/NewPost";
+import EditPost from "./Components/EditPost";
 import Register from "./Components/Register";
 import SinglePost from "./Components/SinglePost";
 import GlobalStyle from "./globalStyles";
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "/new-post",
         element: <NewPost />,
+      },
+      {
+        path: "/edit-post",
+        element: <EditPost />,
       },
       {
         path: "/posts/:id",

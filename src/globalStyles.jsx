@@ -40,7 +40,7 @@ const GlobalStyle = createGlobalStyle`
   3. Add accessible line-height
   4. Improve text rendering
 */
-body {
+body, button, a {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   font-family: "Source Serif 4", serif;  
