@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
-
 const PostContainer = styled.div`
   max-width: 800px;
   margin: 0 auto;
@@ -45,7 +44,8 @@ const PostContainer = styled.div`
       color: #333;
     }
 
-    button, a.link {
+    button,
+    a.link {
       padding: 7px 12px;
       margin-right: 10px;
       font-size: 0.9em;
@@ -74,6 +74,23 @@ const PostContainer = styled.div`
       margin-top: 20px;
       border: 0;
       border-top: 1px solid #ddd;
+    }
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-bottom: 1rem;
+
+    textarea {
+      width: 100%;
+      height: 10rem;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      background-color: #f8f8f8;
+      font-size: 16px;
+      resize: none;
+      margin-bottom: .5rem;
     }
   }
 `;
@@ -129,10 +146,9 @@ export default function SinglePost() {
   };
 
   // for editing the post
-  const handleEditPost  = () => {
+  const handleEditPost = () => {
     navigate("/edit-post", { state: { post } }); // Pasar el post en el estado al navegar
   };
-
 
   const handleEditComment = (commentId, content) => {
     setEditingCommentId(commentId);
@@ -161,7 +177,7 @@ export default function SinglePost() {
       }
 
       // Actualizar la lista de comentarios después de editar
-      const updatedComments = comments.map(comment => 
+      const updatedComments = comments.map((comment) =>
         comment._id === commentId ? { ...comment, commentContent: editingCommentContent } : comment
       );
       setComments(updatedComments);
@@ -187,11 +203,11 @@ export default function SinglePost() {
           </p>
           {editingCommentId === comment._id ? (
             <form onSubmit={(event) => handleEditSubmit(event, comment._id)}>
-              <textarea
-                value={editingCommentContent}
-                onChange={handleEditChange}
-              />
-              <button type="submit">Save</button>
+              <textarea value={editingCommentContent} onChange={handleEditChange} />
+              <div class="d-flex">
+                <button type="submit">Save</button>
+                <button onClick={() => setEditingCommentId(false)}>Close edit</button>
+              </div>
             </form>
           ) : (
             <>
@@ -203,7 +219,9 @@ export default function SinglePost() {
           <hr />
         </div>
       ))}
-      <button className="btn" onClick={handleEditPost}>Edit post</button>
+      <button className="btn" onClick={handleEditPost}>
+        Edit post
+      </button>
     </PostContainer>
   );
 }
