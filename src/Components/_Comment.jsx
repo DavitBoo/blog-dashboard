@@ -7,7 +7,7 @@ const _Comment = () => {
   const [post, setPost] = useState({});
   const [comment, setComment] = useState("");
 
-  const { user } = useContext(AuthContext);
+  const { user, token } = useContext(AuthContext);
 
   const handleTextareaChange = (event) => {
     setComment(event.target.value);
@@ -16,6 +16,7 @@ const _Comment = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      console.log(token);
       const response = await fetch(`https://my-blog-api-14aq.onrender.com/api/posts/${post._id}/comments`, {
         method: "POST",
         headers: {

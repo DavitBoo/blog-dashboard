@@ -80,9 +80,9 @@ export default function NewPost() {
   const [body, setBody] = useState("");
   const [file, setFile] = useState("file.png");
   const [published, setPublished] = useState(false)
-  const [token, setToken] = useState(""); // State to store the token
+  // const [token, setToken] = useState(""); // State to store the token
 
-  const {user} = useContext(AuthContext);
+  const {user, token} = useContext(AuthContext);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -109,6 +109,7 @@ export default function NewPost() {
     // formData.append("thumbnail", file);
 
     try {
+      console.log(token);
       const response = await fetch("https://my-blog-api-14aq.onrender.com/api/posts", {
         method: "POST",
         headers: {

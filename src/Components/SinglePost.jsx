@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { AuthContext } from "../context/authContext";
 
 const PostContainer = styled.div`
   max-width: 800px;
@@ -96,7 +97,7 @@ const PostContainer = styled.div`
 `;
 
 export default function SinglePost() {
- // ! aquí, pensando como restringir la edición con jwts
+  const { user, token } = useContext(AuthContext);
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -167,6 +168,7 @@ export default function SinglePost() {
       const response = await fetch(`https://my-blog-api-14aq.onrender.com/api/posts/${id}/comments/${commentId}`, {
         method: "PUT",
         headers: {
+          "authorization": `Bearer ${token}`, 
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -206,7 +208,7 @@ export default function SinglePost() {
           {editingCommentId === comment._id ? (
             <form onSubmit={(event) => handleEditSubmit(event, comment._id)}>
               <textarea value={editingCommentContent} onChange={handleEditChange} />
-              <div class="d-flex">
+              <div className="d-flex">
                 <button type="submit">Save</button>
                 <button onClick={() => setEditingCommentId(false)}>Close edit</button>
               </div>
