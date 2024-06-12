@@ -100,36 +100,6 @@ export default function NewPost() {
     setPublished(e.target.checked);
   }
 
-  useEffect(() => {
-    const handleLogin = async () => {
-      try {
-        const response = await fetch("https://my-blog-api-14aq.onrender.com/api/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: user,
-            password: "q1w2e3r4t5",
-          }),
-        });
-  
-        if (response.ok) {
-          const data = await response.json();
-          setToken(data.token);
-  
-        } else {
-          console.error("Failed to log in");
-        }
-      } catch (error) {
-        console.error("Error logging in:", error);
-      }
-    };
-    
-    handleLogin();
-  }, [user])
-  
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -167,7 +137,6 @@ export default function NewPost() {
   return (
     <Container>
       <h1>Blog | New Post</h1>
-      {/* <button onClick={handleLogin}>Login</button> */}
       <form onSubmit={handleSubmit}>
         <input type="text" placeholder="Título del post" value={title} onChange={handleTitleChange} />
         <textarea placeholder="Contenido del post" value={body} onChange={handleBodyChange}></textarea>

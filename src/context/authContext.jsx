@@ -20,7 +20,6 @@ export const AuthContextProvider = ({ children }) => {
 
     if (response.ok) {
       const data = await response.json();
-      //setToken(data.token);
       document.cookie = `authToken=${data.token}; path=/; max-age=${60 * 60 * 24}`; // Expires in 1 day
       document.cookie = `logedUser=${username}; path=/; max-age=${60 * 60 * 24}`;
       console.log(document.cookie);

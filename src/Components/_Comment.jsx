@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { AuthContext } from "../context/authContext";
 
 const _Comment = () => {
   const { id } = useParams();
   const [post, setPost] = useState({});
   const [comment, setComment] = useState("");
+
+  const { user } = useContext(AuthContext);
 
   const handleTextareaChange = (event) => {
     setComment(event.target.value);
@@ -19,7 +22,7 @@ const _Comment = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: "test",
+          username: user,
           email: "test@a.b",
           commentContent: comment,
           postId: id,

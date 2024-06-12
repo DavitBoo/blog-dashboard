@@ -96,6 +96,8 @@ const PostContainer = styled.div`
 `;
 
 export default function SinglePost() {
+ // ! aquí, pensando como restringir la edición con jwts
+
   const { id } = useParams();
   const navigate = useNavigate();
 
