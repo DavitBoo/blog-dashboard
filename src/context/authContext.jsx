@@ -11,6 +11,7 @@ export const AuthContextProvider = ({ children }) => {
       mode: 'cors', // just because I have different origin. Not same domain
       headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json" //if I donnt' specify server could not return a JSON an have a problem, but I designed the API, so it should not be necesary
       },
       body: JSON.stringify({
         username: username,
@@ -23,6 +24,7 @@ export const AuthContextProvider = ({ children }) => {
       document.cookie = `authToken=${data.token}; path=/; max-age=${60 * 60 * 24}`; // Expires in 1 day
       document.cookie = `logedUser=${username}; path=/; max-age=${60 * 60 * 24}`;
       console.log(document.cookie);
+      setUser(username)
       navigate("/");
     } else {
       const errorData = await response.json();

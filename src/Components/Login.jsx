@@ -37,6 +37,8 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const [formLoading, setFormLoading] = useState(false);
   // const [token, setToken] = useState("");
 
 
@@ -48,6 +50,7 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setFormLoading(true);
     try {
 
       await login(username, password, navigate);
@@ -55,6 +58,7 @@ export default function Login() {
       
     } catch (error) {
       console.error("Error logging in:", error);
+      setFormLoading(false);
       setError(error.message);
     }
   };
@@ -81,6 +85,11 @@ export default function Login() {
           />
           <input className="btn" type="submit" value="Login" />
         </form>
+        {formLoading && (
+        <p>
+          conectandose al servidor . . . 
+        </p>
+      )}
         {error && <p className="error-msg">{error}</p>}
       </div>
     </FormContainer>
