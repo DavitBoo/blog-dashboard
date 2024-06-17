@@ -35,6 +35,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const logout = () => {
     // ! =>>>
+    // it gets here it is just not deleting the cookie, I should fix it.
     document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; // ! problemas al borrar las cookies desde React, usaré el servidor mejor
     setUser(null);
   };

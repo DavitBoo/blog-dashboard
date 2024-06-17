@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 
 import styled from "styled-components";
 import { AuthContext } from "../context/authContext";
+import { useNavigate } from "react-router-dom";
+
 
 const Container = styled.div`
   max-width: 800px;
@@ -61,7 +63,6 @@ const Container = styled.div`
 
     &:hover {
       background-color: #320083;
-
     }
   }
 
@@ -76,13 +77,18 @@ const Container = styled.div`
 `;
 
 export default function NewPost() {
+
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [file, setFile] = useState("file.png");
-  const [published, setPublished] = useState(false)
+  const [published, setPublished] = useState(false);
   // const [token, setToken] = useState(""); // State to store the token
 
-  const {user, token} = useContext(AuthContext);
+  const [formLoading, setFormLoading] = useState(false);
+
+  const { user, token, logout } = useContext(AuthContext);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -98,10 +104,11 @@ export default function NewPost() {
 
   const handlePublished = (e) => {
     setPublished(e.target.checked);
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFormLoading(true);
 
     // const formData = new FormData();
     // formData.append("title", title);
@@ -113,22 +120,30 @@ export default function NewPost() {
       const response = await fetch("https://my-blog-api-14aq.onrender.com/api/posts", {
         method: "POST",
         headers: {
-          "authorization": `Bearer ${token}`, 
+          authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           title: title,
           body: body,
           thumbnail: file,
-          published: published
+          published: published,
         }),
       });
 
+      setFormLoading(false);
       if (response.ok) {
         console.log("Post created successfully");
+        navigate(`/posts`);
         // Optionally, redirect or show a success message
       } else {
-        console.error("Failed to create post");
+        const errorMsg = await response.json()
+        if(errorMsg.error === 'Token has expired'){
+          //se ejecuta, pero el problema está en que por algún motivo no borra las cookies aun.
+          logout();
+        }
+        console.error("Failed to create post", errorMsg);
+        
       }
     } catch (error) {
       console.error("Error creating post:", error);
@@ -142,7 +157,9 @@ export default function NewPost() {
         <input type="text" placeholder="Título del post" value={title} onChange={handleTitleChange} />
         <textarea placeholder="Contenido del post" value={body} onChange={handleBodyChange}></textarea>
         {0 && <input type="file" onChange={handleFileChange} />}
-        <p><input type="checkbox" name="published" id="" value={false} onChange={handlePublished}/> Publicar</p>
+        <p>
+          <input type="checkbox" name="published" id="" value={false} onChange={handlePublished} /> Publicar
+        </p>
         <input type="submit" value="Guardar post" />
       </form>
     </Container>
