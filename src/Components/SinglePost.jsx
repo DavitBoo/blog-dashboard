@@ -1,3 +1,5 @@
+// ! aquí -  borrar posts pendiente
+
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -23,6 +25,10 @@ const PostContainer = styled.div`
     font-size: 1.2em;
     line-height: 1.6;
     color: #555;
+  }
+
+  .btn {
+    margin-right: .5rem;
   }
 
   .comment {
@@ -153,6 +159,23 @@ export default function SinglePost() {
     navigate("/edit-post", { state: { post } }); // Pasar el post en el estado al navegar
   };
 
+
+  const handleDeletePost = async (commentId) => {
+    console.log(commentId);
+    try {
+      const response = await fetch(`https://my-blog-api-14aq.onrender.com/api/posts/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete the comment");
+      }
+      navigate("/posts", { state: { post } });
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  };
+
   const handleEditComment = (commentId, content) => {
     setEditingCommentId(commentId);
     setEditingCommentContent(content);
@@ -225,6 +248,9 @@ export default function SinglePost() {
       ))}
       <button className="btn" onClick={handleEditPost}>
         Edit post
+      </button>
+      <button className="btn" onClick={handleDeletePost}>
+        Delete post
       </button>
     </PostContainer>
   );

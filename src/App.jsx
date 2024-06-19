@@ -13,7 +13,9 @@ import GlobalStyle from "./globalStyles";
 import { BrowserRouter as Router, Routes, Route, Link, createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import _Comment from "./Components/_Comment";
 
+
 const Layout = () => {
+
   return (
     <>
       <Navbar />
