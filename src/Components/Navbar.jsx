@@ -6,12 +6,12 @@ export default function Navbar() {
   const { user, logout } = useContext(AuthContext); 
 
   return (
-    <nav>
+    <nav className="sidebar">
       <div className="container">
         <div className="logo">
           <h1>Davit Boo - blog back end </h1>
         </div>
-        <div className="links">
+        <div className="links d-flex-col">
         <Link className="link" to="/posts">
             <h6>All Posts</h6>
           </Link>
@@ -32,6 +32,7 @@ export default function Navbar() {
                   Has iniciado sesión como <strong>{user}</strong>
                 </p>
                 <Link className="link" to="/" onClick={logout}>
+                // ! aquí - añadir logo
                   <h6>Logout</h6>
                 </Link>
               </>

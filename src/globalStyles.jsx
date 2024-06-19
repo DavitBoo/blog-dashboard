@@ -46,6 +46,10 @@ body, button, a {
   font-family: "Source Serif 4", serif;  
 
 }
+
+a {
+  text-decoration: none;
+}
 /*
   5. Improve media defaults
 */
@@ -78,6 +82,54 @@ body{
   color: var(--dark-grey);
 }
 
+main {
+  display: flex;
+  }
+
+
+/* --- left sidebar --- */
+nav.sidebar{
+  width: 20rem;
+  position: relative;
+  background-color: #f5eff7;
+
+}
+
+nav.sidebar .container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: sticky;
+  top: 1rem;
+}
+
+nav.sidebar .logo {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-bottom: 1px solid var(--purple);
+}
+
+
+.links{
+
+}
+
+.links > * {
+padding: 1rem;
+
+}
+
+.links a{
+  font-size: 1.5rem  ;
+}
+
+.links a:hover {
+  background-color: #e8e3ea;
+}
+
+
+
+
 .btn {
   background-color: #4a00c1;
   color: #fff;
@@ -99,13 +151,7 @@ body{
 
 }
 
-.links{
-  gap: 2rem;
-}
 
-.links a{
-  font-size: 2rem;
-}
 
 .d-flex{
   display: flex;

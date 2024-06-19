@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   max-width: 800px;
-  margin: 0 auto;
   padding: 2rem;
   background-color: #f1f1f1;
   border-radius: 8px;

@@ -17,11 +17,13 @@ import _Comment from "./Components/_Comment";
 const Layout = () => {
 
   return (
-    <>
-      <Navbar />
-      <Outlet />
+    <body>
+      <main>
+        <Navbar />
+        <Outlet className="content"/>
+      </main>
       <Footer />
-    </>
+    </body>
   );
 };
 
