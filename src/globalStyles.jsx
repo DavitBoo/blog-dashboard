@@ -87,6 +87,8 @@ main {
   }
 
 
+
+  
 /* --- left sidebar --- */
 nav.sidebar{
   width: 20rem;
@@ -152,7 +154,7 @@ padding: 1rem;
 }
 
 
-
+/* --- flex related classes --- */
 .d-flex{
   display: flex;
 }
@@ -161,6 +163,20 @@ padding: 1rem;
   display: flex;
   flex-direction: column;
 }
+
+.align-items-center{
+  align-items: center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.gap-1 {
+  gap: 1rem;
+}
+
+
 
 
 .published{
