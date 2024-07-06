@@ -1,6 +1,46 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+import styled from "styled-components";
+const Posts = styled.ul `
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  gap: 1rem;
+  padding-top: 1rem;
+
+  li {
+    width: 23%;
+    min-width: 15rem;
+    background-color: var(--light-grey);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 3px 3px 9px #f5f5f5cc, -0px -0px 4px #232323cc;
+  }
+
+  li > .d-flex {
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .published, .unpublished {
+    display: inline-block;
+    padding: .25rem .5rem;
+    border-radius: 0.5rem;
+  }
+
+  .published{
+ background-color: #bbe9c1;
+ border: 1px solid  #077015;
+ color: #077015;
+}
+.unpublished{
+  border: 1px solid #6c0707;
+  background-color: #e5bdbd;
+  color: #6c0707;
+}
+`
+
 export default function GetPosts() {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
@@ -18,6 +58,14 @@ export default function GetPosts() {
     };
 
     return date.toLocaleDateString("es-ES", options).replace(",", " a las");
+  };
+
+  const truncateText = (text, maxWords) => {
+    const words = text.split(' ');
+    if (words.length > maxWords) {
+      return words.slice(0, maxWords).join(' ') + ' [...]';
+    }
+    return text;
   };
 
   useEffect(() => {
@@ -42,29 +90,32 @@ export default function GetPosts() {
   return (
     <div>
       {posts.length > 0 ? (
-        <ul>
+        <Posts>
           {posts.map((post) => (
             <li key={post._id}>
-              <h2>
-                <Link to={`/posts/${post._id}`} test="hey">
-                  {post.title}
-                </Link>
-              </h2>
-              <p>{post.body}</p>
+              <div className="d-flex">
+                <h2>
+                  <Link to={`/posts/${post._id}`} test="hey">
+                    {post.title}
+                  </Link>
+                </h2>
+                {post.published ? (
+                  <>
+                    <p className="published">Publicado</p>
+                  </>
+                ) : (
+                  <p className="unpublished">No publicado</p>
+                )}
+              </div>  
+              <p>{truncateText(post.body, 20)}</p>
               <p>{formatDate(post.timestamp)}</p>
-              {post.published ? (
-                <>
-                  <p className="published">Publicado</p>
-                </>
-              ) : (
-                <p className="unpublished">No publicado</p>
-              )}
+             
               <Link className="link" to={`/posts/${post._id}/comment`}>
                 <h6>Add Comment</h6>
               </Link>
             </li>
           ))}
-        </ul>
+        </Posts>
       ) : (
         <div>Loading posts...</div>
       )}

@@ -53,7 +53,7 @@ const Container = styled.div`
   }
 
   input[type="submit"] {
-     background-color: #4a00c1;
+     background-color: var(--darker-purple);
     color: white;
     border: none;
     cursor: pointer;

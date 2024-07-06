@@ -18,8 +18,10 @@ const GlobalStyle = createGlobalStyle`
 
 :root {
   --purple: #B78DFC;
+  --darker-purple: #4a00c1;
   --dark-grey: #333;
   --error-red: #CA2F28;
+  --light-grey: #f8f9fa;
 }
 
   /*
@@ -103,6 +105,7 @@ nav.sidebar .container {
   gap: 1rem;
   position: sticky;
   top: 1rem;
+  width: 20rem;
 }
 
 nav.sidebar .logo {
@@ -133,7 +136,7 @@ padding: 1rem;
 
 
 .btn {
-  background-color: #4a00c1;
+  background-color: var(--darker-purples);
   color: #fff;
   border: 0;
   padding-top: .5rem;
@@ -176,21 +179,6 @@ padding: 1rem;
   gap: 1rem;
 }
 
-
-
-
-.published{
- background-color: #10a324;
- color: #fff;
- display: inline-block;
- padding: .25rem .5rem;
-}
-.unpublished{
-  background-color: #a31010;
-  color: #fff;
-  display: inline-block;
-  padding: .25rem .5rem;
-}
 
 `;
 
