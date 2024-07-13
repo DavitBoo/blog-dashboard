@@ -30,13 +30,13 @@ const Posts = styled.ul `
   }
 
   .published{
- background-color: #bbe9c1;
+ background-color: #dbf1de;
  border: 1px solid  #077015;
  color: #077015;
 }
 .unpublished{
   border: 1px solid #6c0707;
-  background-color: #e5bdbd;
+  background-color: #ecd9d9;
   color: #6c0707;
 }
 `
@@ -90,32 +90,35 @@ export default function GetPosts() {
   return (
     <div>
       {posts.length > 0 ? (
-        <Posts>
-          {posts.map((post) => (
-            <li key={post._id}>
-              <div className="d-flex">
-                <h2>
-                  <Link to={`/posts/${post._id}`} test="hey">
-                    {post.title}
-                  </Link>
-                </h2>
-                {post.published ? (
-                  <>
-                    <p className="published">Publicado</p>
-                  </>
-                ) : (
-                  <p className="unpublished">No publicado</p>
-                )}
-              </div>  
-              <p>{truncateText(post.body, 20)}</p>
-              <p>{formatDate(post.timestamp)}</p>
-             
-              <Link className="link" to={`/posts/${post._id}/comment`}>
-                <h6>Add Comment</h6>
-              </Link>
-            </li>
-          ))}
-        </Posts>
+        <>
+          <h2 className="ms-3">Hay {posts.length} artículos escritos</h2>
+          <Posts>
+            {posts.map((post) => (
+              <li key={post._id}>
+                <div className="d-flex">
+                  <h2>
+                    <Link to={`/posts/${post._id}`} test="hey">
+                      {post.title}
+                    </Link>
+                  </h2>
+                  {post.published ? (
+                    <>
+                      <p className="published">Publicado</p>
+                    </>
+                  ) : (
+                    <p className="unpublished">No publicado</p>
+                  )}
+                </div>
+                <p>{truncateText(post.body, 20)}</p>
+                <p>{formatDate(post.timestamp)}</p>
+          
+                <Link className="link" to={`/posts/${post._id}/comment`}>
+                  <h6>Add Comment</h6>
+                </Link>
+              </li>
+            ))}
+          </Posts>
+        </>
       ) : (
         <div>Loading posts...</div>
       )}

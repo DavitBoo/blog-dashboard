@@ -4,12 +4,16 @@ import styled from "styled-components";
 import { AuthContext } from "../context/authContext";
 
 const PostContainer = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: var(--light-greys);
+  width: 100%;
+  margin: 3rem;
+  padding: 2rem;
+  background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  .content{
+    margin-bottom: 3rem;
+  }
 
   h1 {
     font-size: 2.5em;
@@ -219,8 +223,10 @@ export default function SinglePost() {
 
   return (
     <PostContainer>
-      <h1>{post.title}</h1>
-      <p>{post.body}</p>
+      <div className="content">
+        <h1>{post.title}</h1>
+        <p>{post.body}</p>
+      </div>
       {comments.map((comment) => (
         <div key={comment._id} className="comment">
           <p className="comment-header">

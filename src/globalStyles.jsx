@@ -17,7 +17,7 @@ const GlobalStyle = createGlobalStyle`
 }
 
 :root {
-  --purple: #B78DFC;
+  --purple: #e5d4ff;
   --darker-purple: #4a00c1;
   --dark-grey: #333;
   --error-red: #CA2F28;
@@ -136,7 +136,7 @@ padding: 1rem;
 
 
 .btn {
-  background-color: var(--darker-purples);
+  background-color: var(--darker-purple);
   color: #fff;
   border: 0;
   padding-top: .5rem;
@@ -156,7 +156,14 @@ padding: 1rem;
 
 }
 
+/* --- margin & padding classes --- */
+.ms-1 {
+  margin-left: 1rem;
+}
 
+.ms-3{
+  margin-left: 3rem;
+}
 /* --- flex related classes --- */
 .d-flex{
   display: flex;
