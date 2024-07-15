@@ -174,6 +174,10 @@ padding: 1rem;
   flex-direction: column;
 }
 
+.align-items-start{
+  align-items: start;
+}
+
 .align-items-center{
   align-items: center;
 }

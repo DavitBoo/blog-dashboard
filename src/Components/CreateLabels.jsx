@@ -150,6 +150,7 @@ export default function CreateLabels() {
       console.error("Error creating label:", error);
     }
   };
+  
 
   const fetchLabels = async () => {
     try {

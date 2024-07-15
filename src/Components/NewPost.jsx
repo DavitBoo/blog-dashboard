@@ -1,16 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-
 import styled from "styled-components";
 import { AuthContext } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
 
-
 const Container = styled.div`
-  max-width: 800px;
   padding: 2rem;
-  background-color: #f1f1f1;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
   h1 {
     font-size: 2rem;
@@ -21,10 +15,9 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    background-color: #fff;
+
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
   input[type="text"],
@@ -32,9 +25,9 @@ const Container = styled.div`
   input[type="file"],
   input[type="submit"] {
     font-size: 1rem;
-    padding: 0.5rem;
+    padding: 0.75rem;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    box-sizing: border-box;
   }
 
   input[type="text"],
@@ -53,7 +46,7 @@ const Container = styled.div`
   }
 
   input[type="submit"] {
-    background-color: var(---darker-purple);
+    background-color: #6a1b9a;
     color: white;
     border: none;
     cursor: pointer;
@@ -68,6 +61,7 @@ const Container = styled.div`
   p {
     display: flex;
     align-items: center;
+    gap: 0.5rem;
   }
 
   input[type="checkbox"] {
@@ -76,76 +70,82 @@ const Container = styled.div`
 `;
 
 export default function NewPost() {
-
   const navigate = useNavigate();
-
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [file, setFile] = useState("file.png");
+  const [file, setFile] = useState(null);
   const [published, setPublished] = useState(false);
-  // const [token, setToken] = useState(""); // State to store the token
-
+  const [selectedLabels, setSelectedLabels] = useState([]);
   const [formLoading, setFormLoading] = useState(false);
-
   const { user, token, logout } = useContext(AuthContext);
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
+  const [fetchedLabels, setFetchedLabels] = useState([]);
+
+  const handleTitleChange = (e) => setTitle(e.target.value);
+  const handleBodyChange = (e) => setBody(e.target.value);
+  const handleFileChange = (e) => setFile(e.target.files[0]);
+  const handlePublished = (e) => setPublished(e.target.checked);
+
+  const handleLabelChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setSelectedLabels([...selectedLabels, value]);
+    } else {
+      setSelectedLabels(selectedLabels.filter((labelId) => labelId !== value));
+    }
   };
 
-  const handleBodyChange = (e) => {
-    setBody(e.target.value);
+  const fetchLabels = async () => {
+    try {
+      const response = await fetch("https://my-blog-api-14aq.onrender.com/api/label");
+      const data = await response.json();
+      setFetchedLabels(data);
+    } catch (error) {
+      console.error("Error fetching labels:", error);
+    }
   };
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-
-  const handlePublished = (e) => {
-    setPublished(e.target.checked);
-  };
+  useEffect(() => {
+    fetchLabels();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormLoading(true);
 
-    // const formData = new FormData();
-    // formData.append("title", title);
-    // formData.append("body", body);
-    // formData.append("thumbnail", file);
-
     try {
       console.log(token);
+
       const response = await fetch("https://my-blog-api-14aq.onrender.com/api/posts", {
         method: "POST",
         headers: {
+
+          // ! verify token error
           authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          title: title,
-          body: body,
+          title,
+          body,
           thumbnail: file,
-          published: published,
+          published,
+          labels: selectedLabels,
         }),
       });
 
       setFormLoading(false);
       if (response.ok) {
-        console.log("Post created successfully");
         navigate(`/posts`);
-        // Optionally, redirect or show a success message
       } else {
-        const errorMsg = await response.json()
-        if(errorMsg.error === 'Token has expired'){
-          //se ejecuta, pero el problema está en que por algún motivo no borra las cookies aun.
+        const errorMsg = await response.json();
+        if (errorMsg.error === "Token has expired") {
           logout();
         }
         console.error("Failed to create post", errorMsg);
-        
       }
     } catch (error) {
       console.error("Error creating post:", error);
+      setFormLoading(false);
     }
   };
 
@@ -153,13 +153,32 @@ export default function NewPost() {
     <Container>
       <h1>Blog | New Post</h1>
       <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Título del post" value={title} onChange={handleTitleChange} />
-        <textarea placeholder="Contenido del post" value={body} onChange={handleBodyChange}></textarea>
-        {0 && <input type="file" onChange={handleFileChange} />}
-        <p>
-          <input type="checkbox" name="published" id="" value={false} onChange={handlePublished} /> Publicar
-        </p>
-        <input type="submit" value="Guardar post" />
+        <div className="d-flex gap-1 align-items-start">
+          <div>
+            <input type="file" onChange={handleFileChange} />
+            <input type="text" placeholder="Título del post" value={title} onChange={handleTitleChange} />
+            <textarea placeholder="Contenido del post" value={body} onChange={handleBodyChange}></textarea>
+            <p></p>
+          </div>
+          <div>
+            <input type="submit" value="Guardar post" disabled={formLoading} />
+            <label htmlFor="published">Publicar </label>
+            <input type="checkbox" name="published" checked={published} onChange={handlePublished} />
+            <div>
+              {fetchedLabels.map((label) => (
+                <div key={label._id}>
+                  <input
+                    type="checkbox"
+                    id={label._id}
+                    value={label._id}
+                    onChange={handleLabelChange}
+                  />
+                  <label htmlFor={label._id}>{label.name}</label>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </form>
     </Container>
   );
