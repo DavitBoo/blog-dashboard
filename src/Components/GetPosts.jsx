@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
 import styled from "styled-components";
-const Posts = styled.ul `
+
+const Posts = styled.ul`
   display: flex;
   flex-wrap: wrap;
   list-style: none;
@@ -29,20 +29,38 @@ const Posts = styled.ul `
     border-radius: 0.5rem;
   }
 
-  .published{
- background-color: #dbf1de;
- border: 1px solid  #077015;
- color: #077015;
-}
-.unpublished{
-  border: 1px solid #6c0707;
-  background-color: #ecd9d9;
-  color: #6c0707;
-}
-`
+  .published {
+    background-color: #dbf1de;
+    border: 1px solid #077015;
+    color: #077015;
+  }
+
+  .unpublished {
+    border: 1px solid #6c0707;
+    background-color: #ecd9d9;
+    color: #6c0707;
+  }
+
+  .labels {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .label {
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.85rem;
+    color: #333;
+  }
+`;
 
 export default function GetPosts() {
   const [posts, setPosts] = useState([]);
+  const [labels, setLabels] = useState({});
   const [error, setError] = useState(null);
 
   const formatDate = (timestamp) => {
@@ -61,26 +79,38 @@ export default function GetPosts() {
   };
 
   const truncateText = (text, maxWords) => {
-    const words = text.split(' ');
+    const words = text.split(" ");
     if (words.length > maxWords) {
-      return words.slice(0, maxWords).join(' ') + ' [...]';
+      return words.slice(0, maxWords).join(" ") + " [...]";
     }
     return text;
   };
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchPostsAndLabels = async () => {
       try {
-        const response = await fetch("https://my-blog-api-14aq.onrender.com/api/posts");
+        const [postsResponse, labelsResponse] = await Promise.all([
+          fetch("https://my-blog-api-14aq.onrender.com/api/posts"),
+          fetch("https://my-blog-api-14aq.onrender.com/api/label")
+        ]);
 
-        const data = await response.json();
-        setPosts(data);
+        // to parse response => .json()
+        const postsData = await postsResponse.json();
+        const labelsData = await labelsResponse.json();
+
+        const labelsMap = labelsData.reduce((map, label) => {
+          map[label._id] = label;
+          return map;
+        }, {});
+
+        setPosts(postsData);
+        setLabels(labelsMap);
       } catch (error) {
         setError(error);
       }
     };
 
-    fetchPosts();
+    fetchPostsAndLabels();
   }, []);
 
   if (error) {
@@ -97,21 +127,23 @@ export default function GetPosts() {
               <li key={post._id}>
                 <div className="d-flex">
                   <h2>
-                    <Link to={`/posts/${post._id}`} test="hey">
-                      {post.title}
-                    </Link>
+                    <Link to={`/posts/${post._id}`}>{post.title}</Link>
                   </h2>
                   {post.published ? (
-                    <>
-                      <p className="published">Publicado</p>
-                    </>
+                    <p className="published">Publicado</p>
                   ) : (
                     <p className="unpublished">No publicado</p>
                   )}
                 </div>
                 <p>{truncateText(post.body, 20)}</p>
                 <p>{formatDate(post.timestamp)}</p>
-          
+                <div className="labels">
+                  {post.labels.map((labelId) => (
+                    <span key={labelId} className="label">
+                      {labels[labelId]?.name || "Cargando..."}
+                    </span>
+                  ))}
+                </div>
                 <Link className="link" to={`/posts/${post._id}/comment`}>
                   <h6>Add Comment</h6>
                 </Link>

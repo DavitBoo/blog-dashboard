@@ -127,7 +127,7 @@ export default function NewPost() {
         body: JSON.stringify({
           title,
           body,
-          thumbnail: file,
+          thumbnail: "avatar.jpg",
           published,
           labels: selectedLabels,
         }),
